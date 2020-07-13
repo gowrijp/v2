@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8" />
+      <meta
+         name="viewport"
+         content="width=device-width, user-scalable=no, initial-scale=1, shrink-to-fit=no"
+         />
+      <meta
+         name="description"
+         content="Shortest Path Finder "
+         />
+      <meta name="author" content="Gowri Jayaprakash" />
+      <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon" />
+    </style>
+      <!-- font awesome -->
+      <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+         crossorigin="anonymous"
+         />
+      <!-- Bootstrap CSS -->
+      <link
+         rel="stylesheet"
+         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+         crossorigin="anonymous"
+         />
+      <link href="main.css" rel="stylesheet">
+      <title>Shortest Path Algorithms</title>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165471746-1"></script>
+      <!--<script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+
+         gtag('config', 'UA-165471746-1');
+      </script>   -->
+
+      <section class="user-input-section">
+         <nav class="navbar" >
+           <div class="dropdown-container">
+             <button onclick="dropdownClick()" class="dropdown-button" id="pathfinding-ddb">Breadth-First Search</button>
+             <div id="pathfinding-dropdown-content" class="dropdown-content">
+               <a onclick="algoSelected(this)">Breadth-First Search</a>
+               <a onclick="algoSelected(this)">Depth-First Search</a>
+               <a onclick="algoSelected(this)">A* Search</a>
+               <a onclick="algoSelected(this)">Dijkstra's</a>
+             </div>
+           </div>
+           <button id="clear" onclick="clearAll()">Clear All</button>
+           <button id="clear" onclick="clearPath()">Clear Path</button>
+           <div class="sort-slider-container">
+               <input type="range" min="1" max="10" value="1" class="sort-slider" id="path-speed-slider">
+               </input>
+               <h3 class="sort-slider-label" id="path-speed-slider-label">6x</h3>
+           </div>
+           <button id="start-pathfind" onclick="startFindingPath()">Visualise</button>
+
+         </nav>
+       </section>
+     </head>
+     <body>
+         <script src="scripts/datastructures.js"></script>
+         <script src="scripts/node.js" defer></script>
+         <script src="scripts/runner.js" defer></script>
+         <script src="scripts/graph.js" defer></script>
+         <script src="scripts/states.js" defer></script>
+         <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+         <div id="pathfinding-container"></div>
+
+   </body>
+</html>
