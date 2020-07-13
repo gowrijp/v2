@@ -1,2 +1,2 @@
 # v2
-coz the first one ain't obeying me
+coz the first one ain't working
