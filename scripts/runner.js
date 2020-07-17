@@ -1,4 +1,3 @@
-
 var Runner = (function() {
     // Holds the Path of the last run Algorithm
     var lastPath = [];
@@ -200,6 +199,157 @@ var Runner = (function() {
 
     })();
 
+
+    var GreedyBestFirstSearch = (function() {
+        var performGreedyBestFirstSearch = function(source, destination) {
+            Graph.resetCostValues();
+            // Priority Queue retrieves the next closest vertex
+            var open = new DataStructures.PriorityQueue();
+            // Set used to check if vertex has been visited
+            var closed = new Set();
+            // Keeps track of all predecessors
+            var parentMap = new Map();
+
+            // Add source to the queue
+            open.enqueue(source, 0);
+            parentMap.set(source, null);
+
+            while (!open.isEmpty()) {
+                // Get the closest vertex (lowest H Cost)
+                var vertex = open.dequeue();
+                closed.add(vertex);
+
+                // Animates
+                if (vertex != source && vertex != destination) {
+                    lastPath.push(vertex);
+                    Animate.addSearchNode(vertex.node);
+                }
+
+                // Found the destination
+                if (vertex == destination) {
+                    var prev = parentMap.get(destination);
+                    // Quits the animation loop
+                    if (prev == source) { Animate.addFinalPathNode(null); }
+                    // Traces back through the final path
+                    while (prev != source) {
+                        if (prev == undefined) { return false; }
+                        Animate.addFinalPathNode(prev.node);
+                        prev = parentMap.get(prev);
+                    }
+                    return true;
+                }
+
+                // Loops through neighbors
+                for (var i = 0; i < vertex.adjList.length; i++) {
+                    var newVertex = vertex.adjList[i];
+                    // make sure it is a new vertex
+                    if (!closed.has(newVertex) && !open.has(newVertex)) {
+                        newVertex.HCost = getHDistance(newVertex, destination);
+                        open.enqueue(newVertex, newVertex.HCost);
+                        parentMap.set(newVertex, vertex);
+                    }
+                }
+            }
+            return false;
+        }
+        var getHDistance = function(vertex, destination) {
+            // The Heuristic
+            var disX = Math.abs(destination.node.Xval - vertex.node.Xval);
+            var disY = Math.abs(destination.node.Yval - vertex.node.Yval);
+            return disX + disY;
+        }
+
+
+        return {
+            performGreedyBestFirstSearch: performGreedyBestFirstSearch,
+        };
+
+    })();
+
+
+    var BellmanFord = (function() {
+        var performBellmanFord = function(source, destination) {
+            // Converts the vertex map to an array
+            var vIt = Graph.getAllVerticesIterator();
+            var v = vIt.next();
+            var vertexArray  = [];
+            while (!v.done) {
+                vertexArray.push(v.value);
+                v = vIt.next();
+            }
+
+            // Distance from the source
+            var distanceMap = new Map();
+            // Keeps track of predecessors
+            var parentMap = new Map();
+
+
+            // Step 1: Initialize the distance of all other Vertices as INFINITY
+            for (var i = 0; i < vertexArray.length; i++) {
+                distanceMap.set(vertexArray[i], Number.POSITIVE_INFINITY);
+            }
+
+            // Set the distace of the source as 0
+            distanceMap.set(source, 0);
+
+            // Step 2: Relaxes all Edges V - 1 times (where V is the total number of Vertices)
+            // Relaxing: attempting to lower the cost of getting to a Vertex by attempting different Vertices
+            // V - 1 times is because the longest (worst case) possible path to get to the destination is V - 1 traversals
+            for (var i = 0; i < vertexArray.length-1; i++) {
+                for (var j = 0; j < vertexArray.length; j++) {
+                    var vertex = vertexArray[j];
+                    for (var k = 0; k < vertex.adjList.length; k++) {
+                        var adjV = vertex.adjList[k];
+                        if (distanceMap.get(vertex) + 1 < distanceMap.get(adjV)) {
+                            // Animates
+                            if (adjV != destination) {
+                                Animate.addSearchNode(adjV.node);
+                                lastPath.push(adjV);
+                            }
+                            distanceMap.set(adjV, distanceMap.get(vertex) + 1);
+                            parentMap.set(adjV, vertex);
+                        }
+                    }
+                }
+            }
+
+            // Step 3: Check for any Negative Weight Cycles
+            // If a shorter path is found, then it means there is a negative wieght cycle
+            for (var i = 0; i < vertexArray.length; i++) {
+                var vertex = vertexArray[i];
+                for (var j = 0; j < vertex.adjList.length; j++) {
+                    var adjV = vertex.adjList[j];
+                    if (distanceMap.get(vertex) + 1 < distanceMap.get(adjV)) {
+                        console.log('Negative Weight Cycle Detected!');
+                        return false;
+                    }
+                }
+            }
+
+            // Checks if path to destination was found
+            if (parentMap.get(destination) != undefined) {
+                var prev = parentMap.get(destination);
+                // Quits the animation loop
+                if (prev == source) { Animate.addFinalPathNode(null); }
+                // Traces back through the final path
+                while (prev != source) {
+                    if (prev == undefined) { return false; }
+                    Animate.addFinalPathNode(prev.node);
+                    prev = parentMap.get(prev);
+                }
+                return true;
+            }
+            return false;
+        }
+
+
+        return {
+            performBellmanFord: performBellmanFord,
+        };
+
+    })();
+
+
     var Dijkstras = (function() {
         var performDijkstras = function(source, destination) {
             // Converts the vertex map to an array
@@ -283,6 +433,8 @@ var Runner = (function() {
         BreadthFirstSearch: BreadthFirstSearch,
         DepthFirstSearch: DepthFirstSearch,
         AStarSearch: AStarSearch,
+        GreedyBestFirstSearch: GreedyBestFirstSearch,
+        BellmanFord: BellmanFord,
         Dijkstras: Dijkstras
     };
 
