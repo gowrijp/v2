@@ -46,9 +46,12 @@
                <a onclick="algoSelected(this)">Breadth-First Search</a>
                <a onclick="algoSelected(this)">Depth-First Search</a>
                <a onclick="algoSelected(this)">A* Search</a>
+               <a onclick="algoSelected(this)">Greedy Best-First Search</a>
+               <a onclick="algoSelected(this)">Bellman-Ford</a>
                <a onclick="algoSelected(this)">Dijkstra's</a>
              </div>
            </div>
+           <button class="dropdown-item disabled" id="randomgrid" onclick = "RandomGrid()">Random Grid</button>
            <button id="clear" onclick="clearAll()">Clear All</button>
            <button id="clear" onclick="clearPath()">Clear Path</button>
            <div class="sort-slider-container">
@@ -56,12 +59,17 @@
                </input>
                <h3 class="sort-slider-label" id="path-speed-slider-label">6x</h3>
            </div>
+           <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item disabled" onclick="RandomGrid()"
+                           >Random Grid</a>
+                     </div>-->
            <button id="start-pathfind" onclick="startFindingPath()">Visualise</button>
 
          </nav>
        </section>
      </head>
      <body>
+          <script src="scripts/block_generators.js"></script>
          <script src="scripts/datastructures.js"></script>
          <script src="scripts/node.js" defer></script>
          <script src="scripts/runner.js" defer></script>
