@@ -265,23 +265,18 @@ var Runner = (function() {
         };
 
     })();
-
-
+    // Bellman Ford Algorithm 
     var BellmanFord = (function() {
         var performBellmanFord = function(source, destination) {
-            // Converts the vertex map to an array
-            var vIt = Graph.getAllVerticesIterator();
+            var vIt = Graph.getAllVerticesIterator();  //Array for all the vertices
             var v = vIt.next();
             var vertexArray  = [];
             while (!v.done) {
                 vertexArray.push(v.value);
                 v = vIt.next();
             }
-
-            // Distance from the source
-            var distanceMap = new Map();
-            // Keeps track of predecessors
-            var parentMap = new Map();
+            var distanceMap = new Map();  // Distance from the source
+            var parentMap = new Map();  // parent of each node
 
 
             // Step 1: Initialize the distance of all other Vertices as INFINITY
@@ -349,7 +344,7 @@ var Runner = (function() {
 
     })();
 
-
+    // Dijkstras
     var Dijkstras = (function() {
         var performDijkstras = function(source, destination) {
             // Converts the vertex map to an array
